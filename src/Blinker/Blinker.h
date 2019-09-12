@@ -13,8 +13,8 @@ private:
 public:
     Blinker(byte pin);
 
-    void SwithOn();
-    void SwithOff();
+    void SwitchOn();
+    void SwitchOff();
 
     bool GetIsOn();
 };

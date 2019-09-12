@@ -20,14 +20,14 @@ MyTimer _timer;
 void AnimateRedBlinker()
 {
   _redBlinkerWorkTimer.Start();
-  _redBlinker.SwithOn();
+  _redBlinker.SwitchOn();
 }
 
 void OnRedBlinkerWorkTimeExpired()
 {
   _redBlinkerWorkTimer.Stop();
   _redBlinkerWaitTimer.Start();
-  _redBlinker.SwithOff();
+  _redBlinker.SwitchOff();
 }
 
 void OnRedBlinkerWaitTimeExpired()
