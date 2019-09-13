@@ -4,7 +4,9 @@
 enum State{
   AnimateSlow,
   AnimateNormal,
-  AnumateFast  
+  AnimateFast,
+  On,
+  Off
 };
 
 #endif

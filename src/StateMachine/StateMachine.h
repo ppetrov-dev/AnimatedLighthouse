@@ -2,6 +2,7 @@
 #define stateMachineH
 
 #include "enums.h"
+#include "settings.h"
 
 extern "C"
 {
@@ -21,6 +22,7 @@ public:
     void MoveToNextState();
     void MoveToPreviousState();
     State GetState();
+    unsigned long GetStateSpeedInMilliseconds();
     void AttachOnStateChanged(stateMachineCallback callback);
 };
 

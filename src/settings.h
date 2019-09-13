@@ -15,4 +15,6 @@
 #define FastSpeedInMilliseconds 500
 #define SlowSpeedInMilliseconds 1500
 
+#define OnAndOffSpeedInMilliseconds 60*60*60*1000
+
 #endif // !settingsH

@@ -6,21 +6,31 @@
 #include "Blinker/Blinker.h"
 #include "OneButton.h"
 #include "StateMachine/StateMachine.h"
+#include "StateMachine/StateMachine.h"
+#include "LighthouseHead/LighthouseHead.h"
 
+StateMachine _stateMachine;
 OneButton _button = OneButton(PIN_Button, true, true);
 
 Blinker _redBlinker = Blinker(PIN_RedLight);
+LighthouseHead _lighthouseHead = LighthouseHead(PIN_FirstSection, SectionCount);
+
 MyTimer _redBlinkerWorkTimer;
 MyTimer _redBlinkerWaitTimer;
-
-StateMachine _stateMachine;
-
-MyTimer _timer;
+MyTimer _lighthouseHeadTimer;
 
 void AnimateRedBlinker()
 {
   _redBlinkerWorkTimer.Start();
   _redBlinker.SwitchOn();
+}
+
+void AnimateLighthouseHead()
+{
+  SetupLighthouseHeadSpeed();
+  auto state = _stateMachine.GetState();
+  _lighthouseHead.LightNext(state);
+  _lighthouseHeadTimer.Start();
 }
 
 void OnRedBlinkerWorkTimeExpired()
@@ -36,16 +46,39 @@ void OnRedBlinkerWaitTimeExpired()
   AnimateRedBlinker();
 }
 
-void OnButtonClick(){
+void OnButtonClick()
+{
   _stateMachine.MoveToNextState();
 }
 
-void OnButtonDoubleClick(){
+void OnButtonDoubleClick()
+{
   _stateMachine.MoveToPreviousState();
 }
 
-void OnStateMachineStateChanged(){
+void OnStateMachineStateChanged()
+{
+  AnimateLighthouseHead();
+}
 
+void OnRedBlinkerWaitTimeExpired()
+{
+  _redBlinkerWaitTimer.Stop();
+  AnimateRedBlinker();
+}
+
+void OnLighthouseHeadTick()
+{
+  auto state = _stateMachine.GetState();
+  _lighthouseHead.LightNext(state);
+}
+
+void SetupLighthouseHeadSpeed()
+{
+  _lighthouseHeadTimer.Stop();
+  auto state = _stateMachine.GetState();
+  auto speedInMilliseconds = _stateMachine.GetStateSpeedInMilliseconds();
+  _lighthouseHeadTimer.SetInterval(speedInMilliseconds);
 }
 
 void setup()
@@ -62,6 +95,9 @@ void setup()
   _redBlinkerWaitTimer.SetInterval(RedBlinkerWaitTimeInMilliseconds);
   _redBlinkerWorkTimer.AttachOnTick(&OnRedBlinkerWaitTimeExpired);
 
+  _lighthouseHeadTimer.AttachOnTick(&OnLighthouseHeadTick);
+
+  AnimateLighthouseHead();
   AnimateRedBlinker();
 }
 
@@ -71,4 +107,5 @@ void loop()
 
   _redBlinkerWorkTimer.Tick();
   _redBlinkerWaitTimer.Tick();
+  _lighthouseHeadTimer.Tick();
 }
