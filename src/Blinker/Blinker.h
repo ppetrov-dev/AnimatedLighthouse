@@ -1,7 +1,7 @@
 #ifndef blinkerH
 #define blinkerH
 #include "MyTimer.h"
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Blinker
 {
@@ -12,7 +12,8 @@ private:
 
 public:
     Blinker(byte pin);
-
+    void Init();
+    
     void SwitchOn();
     void SwitchOff();
 

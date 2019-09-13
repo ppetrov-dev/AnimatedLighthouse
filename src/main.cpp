@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "settings.h"
 #include "enums.h"
 
@@ -23,6 +22,13 @@ void AnimateRedBlinker()
 {
   _redBlinkerWorkTimer.Start();
   _redBlinker.SwitchOn();
+}
+
+void SetupLighthouseHeadSpeed()
+{
+  _lighthouseHeadTimer.Stop();
+  auto speedInMilliseconds = _stateMachine.GetStateSpeedInMilliseconds();
+  _lighthouseHeadTimer.SetInterval(speedInMilliseconds);
 }
 
 void AnimateLighthouseHead()
@@ -61,24 +67,10 @@ void OnStateMachineStateChanged()
   AnimateLighthouseHead();
 }
 
-void OnRedBlinkerWaitTimeExpired()
-{
-  _redBlinkerWaitTimer.Stop();
-  AnimateRedBlinker();
-}
-
 void OnLighthouseHeadTick()
 {
   auto state = _stateMachine.GetState();
   _lighthouseHead.LightNext(state);
-}
-
-void SetupLighthouseHeadSpeed()
-{
-  _lighthouseHeadTimer.Stop();
-  auto state = _stateMachine.GetState();
-  auto speedInMilliseconds = _stateMachine.GetStateSpeedInMilliseconds();
-  _lighthouseHeadTimer.SetInterval(speedInMilliseconds);
 }
 
 void setup()
@@ -95,6 +87,8 @@ void setup()
   _redBlinkerWaitTimer.SetInterval(RedBlinkerWaitTimeInMilliseconds);
   _redBlinkerWorkTimer.AttachOnTick(&OnRedBlinkerWaitTimeExpired);
 
+  _redBlinker.Init();
+  _lighthouseHead.Init();
   _lighthouseHeadTimer.AttachOnTick(&OnLighthouseHeadTick);
 
   AnimateLighthouseHead();

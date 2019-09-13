@@ -5,14 +5,21 @@ LighthouseHead::LighthouseHead(byte firstPin, byte sectionCount)
     _firstPin = firstPin;
     _sectionCount = sectionCount;
 }
+void LighthouseHead::Init()
+{
+    for (byte i = 0; i < _sectionCount; i++)
+        pinMode(_firstPin + i, OUTPUT);
+}
+
 void LighthouseHead::LightNext(State state)
 {
-    if(state == On)
+    if (state == On)
     {
         SwitchOn();
         return;
     }
-    else if(state == Off){
+    else if (state == Off)
+    {
         SwitchOff();
         return;
     }
@@ -28,7 +35,7 @@ void LighthouseHead::LightNext(State state)
 }
 void LighthouseHead::SwitchOff(byte pin)
 {
-    pinMode(pin, LOW);
+    digitalWrite(pin, LOW);
 }
 
 void LighthouseHead::SwitchOff()
@@ -39,7 +46,7 @@ void LighthouseHead::SwitchOff()
 
 void LighthouseHead::SwitchOn(byte pin)
 {
-    pinMode(pin, HIGH);
+    digitalWrite(pin, HIGH);
 }
 
 void LighthouseHead::SwitchOn()

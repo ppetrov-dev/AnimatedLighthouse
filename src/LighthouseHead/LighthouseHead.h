@@ -1,7 +1,7 @@
 #ifndef lighthouseHeadH
 #define lighthouseHeadH
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "enums.h"
 
 class LighthouseHead
@@ -18,6 +18,7 @@ private:
 
 public:
     LighthouseHead(byte firstPin, byte sectionCount);
+    void Init();
     void LightNext(State state);
 };
 #endif // !lighthouseHeadH
