@@ -4,14 +4,20 @@ State StateMachine::GetNextState()
 {
     switch (_state)
     {
-    case AnimateNormal:
+    case AnimateVerySlow:
         return AnimateSlow;
     case AnimateSlow:
+        return AnimateNormal;
+    case AnimateNormal:
         return AnimateFast;
     case AnimateFast:
-        return On;
+        return AnimateVeryFast;
+    case AnimateVeryFast:
+        return AnimateSuperFast;
+    case AnimateSuperFast:
+        return AnimateVerySlow;
+
     case On:
-        return Off;
     case Off:
         return AnimateNormal;
     }
@@ -21,15 +27,20 @@ State StateMachine::GetPreviousState()
 {
     switch (_state)
     {
-    case AnimateNormal:
-        return Off;
-    case Off:
-        return On;
-    case On:
-        return AnimateFast;
-    case AnimateFast:
-        return AnimateSlow;
+    case AnimateVerySlow:
+        return AnimateSuperFast;
     case AnimateSlow:
+        return AnimateVerySlow;
+    case AnimateNormal:
+        return AnimateSlow;
+    case AnimateFast:
+        return AnimateNormal;
+    case AnimateVeryFast:
+        return AnimateFast;
+    case AnimateSuperFast:
+        return AnimateVeryFast;
+    case On:
+    case Off:
         return AnimateNormal;
     }
     return AnimateNormal;
@@ -66,12 +77,19 @@ unsigned long StateMachine::GetStateSpeedInMilliseconds()
 {
     switch (_state)
     {
+    case AnimateVerySlow:
+        return VerySlowSpeedInMilliseconds;
     case AnimateSlow:
         return SlowSpeedInMilliseconds;
     case AnimateNormal:
         return NormalSpeedInMilliseconds;
     case AnimateFast:
         return FastSpeedInMilliseconds;
+    case AnimateVeryFast:
+        return VeryFastSpeedInMilliseconds;
+    case AnimateSuperFast:
+        return SuperFastSpeedInMilliseconds;
+        
     case On:
     case Off:
         return OnAndOffSpeedInMilliseconds;

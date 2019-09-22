@@ -1,7 +1,6 @@
 #ifndef settingsH
 #define settingsH
 
-
 #define PIN_Button 2
 #define PIN_RedLight 3
 
@@ -11,9 +10,12 @@
 #define RedBlinkerWorkTimeInMilliseconds 1000
 #define RedBlinkerWaitTimeInMilliseconds 500
 
-#define NormalSpeedInMilliseconds 1000
-#define FastSpeedInMilliseconds 500
-#define SlowSpeedInMilliseconds 1500
+#define VerySlowSpeedInMilliseconds 800
+#define SlowSpeedInMilliseconds 600
+#define NormalSpeedInMilliseconds 400
+#define FastSpeedInMilliseconds 200
+#define VeryFastSpeedInMilliseconds 100
+#define SuperFastSpeedInMilliseconds 50
 
 #define OnAndOffSpeedInMilliseconds 60*60*60*1000
 

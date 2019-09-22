@@ -1,10 +1,15 @@
 #ifndef enumsH
 #define enumsH
 
-enum State{
+enum State
+{
+  AnimateVerySlow,
   AnimateSlow,
   AnimateNormal,
   AnimateFast,
+  AnimateVeryFast,
+  AnimateSuperFast,
+  
   On,
   Off
 };

@@ -20,8 +20,8 @@ MyTimer _lighthouseHeadTimer;
 
 void AnimateRedBlinker()
 {
-  _redBlinkerWorkTimer.Start();
   _redBlinker.SwitchOn();
+  _redBlinkerWorkTimer.Start();
 }
 
 void SetupLighthouseHeadSpeed()
@@ -42,8 +42,8 @@ void AnimateLighthouseHead()
 void OnRedBlinkerWorkTimeExpired()
 {
   _redBlinkerWorkTimer.Stop();
-  _redBlinkerWaitTimer.Start();
   _redBlinker.SwitchOff();
+  _redBlinkerWaitTimer.Start();
 }
 
 void OnRedBlinkerWaitTimeExpired()
@@ -60,6 +60,15 @@ void OnButtonClick()
 void OnButtonDoubleClick()
 {
   _stateMachine.MoveToPreviousState();
+}
+
+void OnButtonLongPressStart()
+{
+  auto state = _stateMachine.GetState();
+  if (state == On)
+    _stateMachine.SetState(Off);
+  else
+  _stateMachine.SetState(On);
 }
 
 void OnStateMachineStateChanged()
@@ -81,11 +90,12 @@ void setup()
 
   _button.attachClick(&OnButtonClick);
   _button.attachDoubleClick(&OnButtonDoubleClick);
+  _button.attachLongPressStart(&OnButtonLongPressStart);
 
-  _redBlinkerWorkTimer.SetInterval(RedBlinkerWorkTimeInMilliseconds);
+      _redBlinkerWorkTimer.SetInterval(RedBlinkerWorkTimeInMilliseconds);
   _redBlinkerWorkTimer.AttachOnTick(&OnRedBlinkerWorkTimeExpired);
   _redBlinkerWaitTimer.SetInterval(RedBlinkerWaitTimeInMilliseconds);
-  _redBlinkerWorkTimer.AttachOnTick(&OnRedBlinkerWaitTimeExpired);
+  _redBlinkerWaitTimer.AttachOnTick(&OnRedBlinkerWaitTimeExpired);
 
   _redBlinker.Init();
   _lighthouseHead.Init();
@@ -99,7 +109,11 @@ void loop()
 {
   _button.tick();
 
-  _redBlinkerWorkTimer.Tick();
+  if (_button.getPressedTicks() == 3){
+    _stateMachine.SetState(On);
+  }
+
+    _redBlinkerWorkTimer.Tick();
   _redBlinkerWaitTimer.Tick();
   _lighthouseHeadTimer.Tick();
 }

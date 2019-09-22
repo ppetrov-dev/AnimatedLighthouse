@@ -16,9 +16,9 @@ private:
     stateMachineCallback _stateChangedCallback;
     State GetNextState();
     State GetPreviousState();
-    void SetState(State newState);
 
 public:
+    void SetState(State newState);
     void MoveToNextState();
     void MoveToPreviousState();
     State GetState();
